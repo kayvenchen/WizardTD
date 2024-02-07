@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Tile.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WizardTD</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Tile.java</span></div><h1>Tile.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import processing.core.PImage;
+
+
+/**
+ * The `Tile` class represents a tile on a game map, it is used for creating
+ * the visual layout of the game. It stores the x and y coordinates of the tile
+ * and the associated sprite image.
+ */
+public class Tile {
+
+    private int x;
+    private int y;
+    private PImage sprite;
+
+    /**
+     * Constructs a new Tile object with the specified coordinates and sprite image.
+     *
+     * @param x The x-coordinate of the tile.
+     * @param y The y-coordinate of the tile.
+     * @param sprite The sprite image associated with the tile.
+     */
+<span class="fc" id="L24">    public Tile(int x, int y, PImage sprite) {</span>
+<span class="fc" id="L25">        this.x = x;</span>
+<span class="fc" id="L26">        this.y = y;</span>
+<span class="fc" id="L27">        this.sprite = sprite;</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Get the sprite image associated with the tile.
+     *
+     * @return The sprite image of the tile.
+     */
+    public PImage getTile() {
+<span class="fc" id="L36">        return this.sprite;</span>
+    }
+
+    /**
+     * Get the x-coordinate of the tile.
+     *
+     * @return The x-coordinate of the tile.
+     */
+    public int getX() {
+<span class="fc" id="L45">        return this.x;</span>
+    }
+
+    /**
+     * Get the y-coordinate of the tile.
+     *
+     * @return The y-coordinate of the tile.
+     */
+    public int getY() {
+<span class="fc" id="L54">        return this.y;</span>
+    }
+
+    /**
+     * Get the height of the tile's sprite image.
+     *
+     * @return The height of the sprite image.
+     */
+    public int getHeight() {
+<span class="fc" id="L63">        return this.sprite.height;</span>
+    }
+
+    /**
+     * Get the width of the tile's sprite image.
+     *
+     * @return The width of the sprite image.
+     */
+    public int getWidth() {
+<span class="fc" id="L72">        return this.sprite.width;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

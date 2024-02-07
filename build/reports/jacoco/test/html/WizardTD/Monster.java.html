@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Monster.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WizardTD</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Monster.java</span></div><h1>Monster.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import java.util.ArrayList;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+
+
+/**
+ * The Monster class represents an enemy unit in the Wizard Tower Defense game.
+ * It has attributes such as health points (hp), speed, armor, and more. Monsters
+ * move along waypoints towards a wizard's house and can be affected by fireballs.
+ */
+public class Monster {
+    private PImage sprite;
+    private int hp;
+    private int currentHp;
+    private double speed;
+    private double armour;
+    private int manaGainedOnKill;
+    private double direction;
+
+    
+    private Tile wizardHouse;
+    private ArrayList&lt;Waypoint&gt; waypoints;
+    private ArrayList&lt;Fireball&gt; fireballs;
+
+    private boolean isAlive;
+    private boolean isBanished;
+
+    private float x;
+    private float y;
+    
+
+    /**
+     * Constructs a new Monster instance with the specified parameters.
+     *
+     * @param sprite             The image representing the monster's appearance.
+     * @param hp                 The initial health points of the monster.
+     * @param speed              The movement speed of the monster.
+     * @param armour             The armor value of the monster.
+     * @param manaGainedOnKill   The amount of mana gained when the monster is killed.
+     * @param wizardHouse        The wizard's house tile, which is the destination of the monster.
+     */
+<span class="fc" id="L45">    public Monster(PImage sprite, int hp, double speed, double armour, int manaGainedOnKill, Tile wizardHouse) {</span>
+<span class="fc" id="L46">        this.sprite = sprite;</span>
+<span class="fc" id="L47">        this.hp = hp;</span>
+<span class="fc" id="L48">        this.speed = speed;</span>
+<span class="fc" id="L49">        this.armour = armour;</span>
+<span class="fc" id="L50">        this.manaGainedOnKill = manaGainedOnKill;</span>
+<span class="fc" id="L51">        this.wizardHouse = wizardHouse;</span>
+<span class="fc" id="L52">    }</span>
+
+    /**
+     * Constructs a new Monster instance by cloning an existing monster.
+     *
+     * @param original   The original monster to clone.
+     * @param x          The x-coordinate of the cloned monster's position.
+     * @param y          The y-coordinate of the cloned monster's position.
+     * @param direction  The direction of movement for the cloned monster.
+     * @param waypoints  The list of waypoints the monster follows.
+     * @param fireballs  The list of fireballs in the game.
+     */
+<span class="fc" id="L64">    public Monster(Monster original, float x, float y, double direction, ArrayList&lt;Waypoint&gt; waypoints, ArrayList&lt;Fireball&gt; fireballs) {</span>
+        // Copy the properties from the original monster
+        
+<span class="fc" id="L67">        this.hp = original.hp;</span>
+<span class="fc" id="L68">        this.currentHp = original.hp;</span>
+<span class="fc" id="L69">        this.sprite = original.sprite;</span>
+<span class="fc" id="L70">        this.speed = original.speed;</span>
+<span class="fc" id="L71">        this.armour = original.armour;</span>
+<span class="fc" id="L72">        this.manaGainedOnKill = original.manaGainedOnKill;</span>
+<span class="fc" id="L73">        this.wizardHouse = original.wizardHouse;</span>
+        
+<span class="fc" id="L75">        this.isAlive = true;</span>
+<span class="fc" id="L76">        this.isBanished = false;</span>
+<span class="fc" id="L77">        this.x = x;</span>
+<span class="fc" id="L78">        this.y = y;</span>
+<span class="fc" id="L79">        this.direction = direction;</span>
+<span class="fc" id="L80">        this.waypoints = waypoints;</span>
+<span class="fc" id="L81">        this.fireballs = fireballs;</span>
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Gets the image sprite representing the monster's appearance.
+     *
+     * @return The PImage object containing the monster's sprite.
+     */
+    public PImage getType() {
+<span class="nc" id="L90">        return sprite;</span>
+    }
+
+    /**
+     * Gets the initial health points (hp) of the monster.
+     *
+     * @return The initial health points of the monster.
+     */
+    public int getHp() {
+<span class="fc" id="L99">        return hp;</span>
+    }
+    
+    /**
+     * Gets the current x-coordinate of the monster's position.
+     *
+     * @return The x-coordinate of the monster.
+     */
+    public float getX() {
+<span class="nc" id="L108">        return x;</span>
+    }
+
+    /**
+     * Gets the current y-coordinate of the monster's position.
+     *
+     * @return The y-coordinate of the monster.
+     */
+    public float getY() {
+<span class="nc" id="L117">        return y;</span>
+    }
+
+    /**
+     * Gets the width of the monster's sprite image.
+     *
+     * @return The width of the sprite image.
+     */
+    public int getWidth() {
+<span class="nc" id="L126">        return this.sprite.width;</span>
+    }
+
+    /**
+     * Gets the height of the monster's sprite image.
+     *
+     * @return The height of the sprite image.
+     */
+    public int getHeight() {
+<span class="nc" id="L135">        return this.sprite.height;</span>
+    }
+
+    /**
+     * Gets the current health points of the monster.
+     *
+     * @return The current health points of the monster.
+     */
+    public int getCurrentHp() {
+<span class="fc" id="L144">        return currentHp;</span>
+    }
+
+    /**
+     * Sets the current health points of the monster.
+     *
+     * @param currentHp The new current health points to set.
+     */
+    public void setCurrentHp(int currentHp) {
+<span class="nc" id="L153">        this.currentHp = currentHp;</span>
+<span class="nc" id="L154">    }</span>
+
+    /**
+     * Gets the movement speed of the monster.
+     *
+     * @return The movement speed of the monster.
+     */
+    public double getSpeed() {
+<span class="nc" id="L162">        return speed;</span>
+    }
+
+    /**
+     * Gets the armor value of the monster.
+     *
+     * @return The armor value of the monster.
+     */
+    public double getArmour() {
+<span class="nc" id="L171">        return armour;</span>
+    }
+
+    /**
+     * Gets the amount of mana gained when the monster is killed.
+     *
+     * @return The mana gained on killing the monster.
+     */
+    public int getManaGainedOnKill() {
+<span class="nc" id="L180">        return manaGainedOnKill;</span>
+    }
+
+    /**
+     * Sets the direction in which the monster is moving.
+     *
+     * @param direction The new direction of movement in degrees.
+     */
+    public void setDirection(double direction) {
+<span class="nc" id="L189">        this.direction = direction;</span>
+<span class="nc" id="L190">    }</span>
+    
+    /**
+     * Sets the sprite image representing the monster's appearance.
+     *
+     * @param sprite The new sprite image for the monster.
+     */
+    public void setSprite(PImage sprite) {
+<span class="nc" id="L198">        this.sprite = sprite;</span>
+<span class="nc" id="L199">    }</span>
+
+    /**
+     * Handles the logic for the monster, including movement, collision checks, and health updates.
+     */
+    public void tick() {
+        // handles logic
+<span class="nc bnc" id="L206" title="All 2 branches missed.">        if (this.isAlive) {</span>
+<span class="nc" id="L207">            move();</span>
+<span class="nc" id="L208">            checkCollision();</span>
+<span class="nc" id="L209">            checkHP();</span>
+        }
+<span class="nc" id="L211">    }</span>
+
+    /**
+     * Moves the monster based on its current direction and speed.
+     */
+    public void move() {
+<span class="nc" id="L217">        x += speed/30 * Math.cos(Math.toRadians(direction));</span>
+<span class="nc" id="L218">        y += speed/30 * Math.sin(Math.toRadians(direction));</span>
+<span class="nc" id="L219">    }</span>
+    
+
+    /**
+     * Draws the monster's image and health bar on the game canvas.
+     *
+     * @param app  The PApplet object used for drawing.
+     */
+    public void draw(PApplet app) {
+        // handle graphics
+<span class="nc bnc" id="L229" title="All 2 branches missed.">        if (this.isAlive) {</span>
+
+<span class="nc" id="L231">            float xOffset = this.x*App.CELLSIZE + 5;</span>
+<span class="nc" id="L232">            float yOffset = this.y*App.CELLSIZE + App.TOPBAR + 5;</span>
+<span class="nc" id="L233">            app.image(this.sprite, xOffset, yOffset);</span>
+
+            // draw health bar above head
+<span class="nc" id="L236">            float healthBarWidth = this.sprite.width;</span>
+<span class="nc" id="L237">            float currentHealthWidth = ((float)currentHp/(float)hp) * healthBarWidth;</span>
+
+<span class="nc" id="L239">            app.noStroke();</span>
+<span class="nc" id="L240">            app.fill(255, 0, 0);</span>
+<span class="nc" id="L241">            app.rect(xOffset, yOffset - 10, healthBarWidth, 2);</span>
+<span class="nc" id="L242">            app.fill(0, 255, 0); </span>
+<span class="nc" id="L243">            app.rect(xOffset, yOffset - 10, currentHealthWidth, 2);</span>
+            
+            
+        }
+<span class="nc" id="L247">    }</span>
+    
+    /**
+     * Reduces the monster's current health points by the specified amount.
+     *
+     * @param damage The amount of damage to inflict on the monster.
+     */
+    public void takeDamage(int damage) {
+<span class="fc" id="L255">        currentHp -= damage;</span>
+<span class="fc" id="L256">    }</span>
+
+    /**
+     * Sets the monster's state as not alive, indicating it has been defeated.
+     */
+    public void setDead() {
+<span class="fc" id="L262">        this.isAlive = false;</span>
+<span class="fc" id="L263">    }</span>
+    
+    /**
+     * Checks if the monster is alive.
+     *
+     * @return True if the monster is alive, false if it is defeated.
+     */
+    public boolean isAlive() {
+<span class="fc" id="L271">        return this.isAlive;</span>
+    }
+
+    /**
+     * Checks if the monster's current health points have fallen to zero or below
+     * and sets the monster as dead if it is defeated.
+     */
+    public void checkHP() {
+<span class="nc bnc" id="L279" title="All 2 branches missed.">        if (currentHp &lt;= 0) {</span>
+<span class="nc" id="L280">            setDead();</span>
+        }
+<span class="nc" id="L282">    }</span>
+
+    /**
+     * Checks if the monster has been banished.
+     *
+     * @return True if the monster has been banished, false otherwise.
+     */
+    public boolean getIsBanished() {
+<span class="fc" id="L290">        return isBanished;</span>
+    }
+
+    /**
+     * return the monster to the spawn location after being banished so it can run the course again.
+     *
+     * @param x          The x-coordinate of the spawn location.
+     * @param y          The y-coordinate of the spawn location.
+     * @param direction  The direction the monster should start moving in at that spawn location.
+     */
+    public void setBanishedMonsterLocation(int x, int y, double direction) {
+<span class="fc" id="L301">        this.x = x;</span>
+<span class="fc" id="L302">        this.y = y;</span>
+<span class="fc" id="L303">        this.direction = direction;</span>
+<span class="fc" id="L304">        this.isBanished = false;</span>
+<span class="fc" id="L305">    }</span>
+
+    /**
+     * Checks if the monster is banished and sets its state accordingly.
+     * Checks if the monster is inside a waypoint and changes direction accordingly.
+     * Checks if the monster collides with a fireball and takes damage.
+     */
+    public void checkCollision() {
+            
+        // monster sprite location and dimensions
+<span class="nc" id="L315">        float monsterLeft = this.x * App.CELLSIZE  + 5;</span>
+<span class="nc" id="L316">        float monsterTop = this.y * App.CELLSIZE  + 45;</span>
+<span class="nc" id="L317">        float monsterRight = monsterLeft + this.sprite.width;</span>
+<span class="nc" id="L318">        float monsterBottom = monsterTop + this.sprite.height;</span>
+
+        // wizard house
+<span class="nc" id="L321">        int wizardHouseLeft = wizardHouse.getX() * App.CELLSIZE - 8;</span>
+<span class="nc" id="L322">        int wizardHouseRight = wizardHouseLeft + wizardHouse.getWidth();</span>
+<span class="nc" id="L323">        int wizardHouseTop = wizardHouse.getY()* App.CELLSIZE + App.TOPBAR - 8;</span>
+<span class="nc" id="L324">        int wizardHouseBottom = wizardHouseTop + wizardHouse.getHeight();</span>
+
+<span class="nc bnc" id="L326" title="All 8 branches missed.">        if (monsterRight &gt; wizardHouseLeft &amp;&amp; </span>
+            monsterLeft &lt; wizardHouseRight &amp;&amp;
+            monsterBottom &gt; wizardHouseTop &amp;&amp; 
+            monsterTop &lt; wizardHouseBottom) {
+<span class="nc" id="L330">                this.isBanished = true;</span>
+<span class="nc" id="L331">                return;</span>
+        }
+            
+            // waypoints
+<span class="nc bnc" id="L335" title="All 2 branches missed.">        for (Waypoint waypoint : this.waypoints) {</span>
+<span class="nc" id="L336">            float waypointLeft = waypoint.getX() * App.CELLSIZE + 5;</span>
+<span class="nc" id="L337">            float waypointRight = waypointLeft + 22;</span>
+<span class="nc" id="L338">            float waypointTop = waypoint.getY() * App.CELLSIZE + 45;</span>
+<span class="nc" id="L339">            float waypointBottom = waypointTop + 22;</span>
+
+<span class="nc bnc" id="L341" title="All 8 branches missed.">            if (monsterLeft &gt;= waypointLeft &amp;&amp; </span>
+            monsterRight &lt;= waypointRight &amp;&amp; 
+            monsterTop &gt;= waypointTop &amp;&amp; 
+            monsterBottom &lt;= waypointBottom) {
+<span class="nc" id="L345">                this.setDirection(waypoint.getDirectionAsAngle());</span>
+            }
+<span class="nc" id="L347">        }</span>
+
+<span class="nc bnc" id="L349" title="All 2 branches missed.">        for (Fireball fireball : this.fireballs) {</span>
+<span class="nc" id="L350">            float fireballLeft = fireball.getX();</span>
+<span class="nc" id="L351">            float fireballRight = fireballLeft + fireball.getWidth();</span>
+<span class="nc" id="L352">            float fireballTop = fireball.getY();</span>
+<span class="nc" id="L353">            float fireballBottom = fireballTop + fireball.getHeight();</span>
+        
+<span class="nc bnc" id="L355" title="All 8 branches missed.">            if (monsterRight &gt; fireballLeft &amp;&amp; </span>
+            monsterLeft &lt; fireballRight &amp;&amp;
+            monsterBottom &gt; fireballTop &amp;&amp; 
+            monsterTop &lt; fireballBottom) {
+<span class="nc bnc" id="L359" title="All 2 branches missed.">                if (fireball.isFiring()){</span>
+<span class="nc" id="L360">                    this.takeDamage(fireball.getDamage());</span>
+                }
+<span class="nc" id="L362">                fireball.resetFireball();</span>
+            }
+<span class="nc" id="L364">        }</span>
+<span class="nc" id="L365">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>

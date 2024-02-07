@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wave.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WizardTD</a> &gt; <a href="index.source.html" class="el_package">WizardTD</a> &gt; <span class="el_source">Wave.java</span></div><h1>Wave.java</h1><pre class="source lang-java linenums">package WizardTD;
+
+import java.util.ArrayList;
+
+/**
+ * The Wave class represents a wave of monsters in a tower defense game.
+ * Each wave has a pre-wave pause duration, a total duration for the wave,
+ * a list of monster types to spawn, and the quantity of each monster type to spawn.
+ */
+public class Wave {
+    private double preWavePause;
+    private int duration;
+    private ArrayList&lt;Monster&gt; monsters;
+    private int quantity;
+
+    /**
+     * Constructs a new Wave object.
+     *
+     * @param preWavePause The duration of the pause before the wave starts.
+     * @param duration The total duration of the wave.
+     * @param monsters The list of Monster objects to spawn in the wave.
+     * @param quantity The quantity of each monster type to spawn in the wave.
+     */
+<span class="fc" id="L24">    public Wave(double preWavePause, int duration, ArrayList&lt;Monster&gt; monsters, int quantity) {</span>
+<span class="fc" id="L25">        this.preWavePause = preWavePause;</span>
+<span class="fc" id="L26">        this.duration = duration;</span>
+<span class="fc" id="L27">        this.monsters = monsters;</span>
+<span class="fc" id="L28">        this.quantity = quantity;</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Get the duration of the pre-wave pause.
+     *
+     * @return The duration of the pre-wave pause.
+     */
+    public double getPreWavePause() {
+<span class="fc" id="L37">        return preWavePause;</span>
+    }
+
+    /**
+     * Get the total duration of the wave.
+     *
+     * @return The total duration of the wave.
+     */
+    public int getDuration() {
+<span class="fc" id="L46">        return duration;</span>
+    }
+
+    /**
+     * Get the list of Monster objects to spawn in the wave.
+     *
+     * @return The list of Monster objects to spawn.
+     */
+    public ArrayList&lt;Monster&gt; getMonstersToSpawn() {
+<span class="fc" id="L55">        return monsters;</span>
+    }
+
+    /**
+     * Get the quantity of each monster type to spawn in the wave.
+     *
+     * @return The quantity of each monster type to spawn.
+     */
+    public int getQuantity() {
+<span class="fc" id="L64">        return quantity;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.9.202303310957</span></div></body></html>
